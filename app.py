@@ -140,13 +140,14 @@ def car_list():
     q               = request.args.get('q', '')
     favs            = request.args.get('favs', '')
     car_type_filter = request.args.get('car_type_filter', '')
+    sell_type_filter = request.args.get('sell_type_filter', '')
     sort            = request.args.get('sort', 'recommend')
     page            = int(request.args.get('page', 1))
     per_page        = 60
     offset          = (page - 1) * per_page
 
     sort_map = {
-        'recommend':   'year DESC, mileage ASC, price ASC',
+        'recommend':   'CASE WHEN predicted_price IS NULL THEN 1 ELSE 0 END ASC, (price / predicted_price) ASC',
         'price_asc':   'price ASC',
         'price_desc':  'price DESC',
         'year_desc':   'year DESC, price ASC',
@@ -190,6 +191,8 @@ def car_list():
             conditions.append('car_type = %s');      params.append(car_type_filter)
         if model_filter:
             conditions.append('model = %s');          params.append(model_filter)
+        if sell_type_filter:
+            conditions.append('sell_type = %s');      params.append(sell_type_filter)
         if q:
             # 브랜드명, 모델명, 배지(세부모델) 모두 포함 검색
             conditions.append('(manufacturer LIKE %s OR model LIKE %s OR badge LIKE %s)')
@@ -239,7 +242,8 @@ def car_list():
                            mileage_min=mileage_min, mileage_max=mileage_max,
                            q=q, favs=favs, sort=sort, region=region,
                            car_type_filter=car_type_filter,
-                           models=models, model_filter=model_filter)
+                           models=models, model_filter=model_filter,
+                           sell_type_filter=sell_type_filter)
 
 
 

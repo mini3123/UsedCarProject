@@ -205,6 +205,16 @@
                     </button>
                 </div>
 
+                <!-- 판매유형 -->
+                <div class="pill-wrap">
+                    <button type="button"
+                            class="filter-pill {{ 'active' if sell_type_filter }}"
+                            onclick="toggleDrop('dropSellType', this)">
+                        {% if sell_type_filter %}{{ sell_type_filter }}{% else %}판매유형{% endif %}
+                        <span class="chev">▾</span>
+                    </button>
+                </div>
+
             </div><!-- /.filter-bar-inner -->
         </div><!-- /.filter-bar -->
 
@@ -239,6 +249,12 @@
             <span class="active-tag">
                 {{ fuel_type }}
                 <button type="button" onclick="clearFilter('fuel_type')">✕</button>
+            </span>
+            {% endif %}
+            {% if sell_type_filter %}
+            <span class="active-tag">
+                {{ sell_type_filter }}
+                <button type="button" onclick="clearFilter('sell_type_filter')">✕</button>
             </span>
             {% endif %}
         </div>
@@ -297,6 +313,24 @@
             <label class="drop-radio">
                 <input type="radio" name="fuel_type" value=""
                        {{ 'checked' if not fuel_type }}
+                       onchange="this.form.submit()">
+                전체
+            </label>
+        </div>
+
+        <div class="drop-panel" id="dropSellType" style="min-width:140px;">
+            <div class="drop-title">판매유형</div>
+            {% for st in ['일반', '렌트', '리스'] %}
+            <label class="drop-radio">
+                <input type="radio" name="sell_type_filter" value="{{ st }}"
+                       {{ 'checked' if sell_type_filter == st }}
+                       onchange="this.form.submit()">
+                {{ st }}
+            </label>
+            {% endfor %}
+            <label class="drop-radio">
+                <input type="radio" name="sell_type_filter" value=""
+                       {{ 'checked' if not sell_type_filter }}
                        onchange="this.form.submit()">
                 전체
             </label>
