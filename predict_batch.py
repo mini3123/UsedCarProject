@@ -22,7 +22,7 @@ encoders = joblib.load('encoders.pkl')
 
 with conn.cursor() as cur:
     cur.execute("""
-        SELECT id, manufacturer, model, badge,
+        SELECT id, manufacturer, model, badge, car_type,
                COALESCE(fuel_type, '기타') AS fuel_type,
                year, mileage
         FROM cars
@@ -34,7 +34,7 @@ df = pd.DataFrame(rows)
 print(f"예측 대상: {len(df):,}건")
 
 # 인코딩
-for col in ['manufacturer', 'model', 'badge', 'fuel_type']:
+for col in ['manufacturer', 'model', 'badge', 'car_type', 'fuel_type']:
     le = encoders[col]
     df[col] = df[col].astype(str)
     known = set(le.classes_)

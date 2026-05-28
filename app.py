@@ -147,7 +147,7 @@ def car_list():
     offset          = (page - 1) * per_page
 
     sort_map = {
-        'recommend':   'CASE WHEN predicted_price IS NULL THEN 1 ELSE 0 END ASC, (price / predicted_price) ASC',
+        'recommend':   'CASE WHEN predicted_price IS NULL THEN 1 ELSE 0 END ASC, (predicted_price - price) DESC',
         'price_asc':   'price ASC',
         'price_desc':  'price DESC',
         'year_desc':   'year DESC, price ASC',
