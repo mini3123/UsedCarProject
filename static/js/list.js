@@ -122,6 +122,11 @@ function applyFavFilter() {
 function toggleFavFilter() {
     const params = new URLSearchParams(location.search);
     if (params.get('favs')) {
+        // 찜 필터 상태에서 카드가 하나도 없으면 stale 데이터 → 자동 초기화
+        if (document.querySelectorAll('.hd-card').length === 0) {
+            saveFavs(new Set());
+            updateFavUI();
+        }
         params.delete('favs');
         params.set('page', '1');
         location.href = '/list?' + params.toString();
