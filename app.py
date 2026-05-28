@@ -273,7 +273,7 @@ def analysis():
         cur.execute("""
             SELECT fuel_type, COUNT(*) as cnt
             FROM cars WHERE price > 50 AND price NOT IN (9990, 9999) AND price < 99000 AND fuel_type IS NOT NULL
-            GROUP BY fuel_type ORDER BY cnt DESC
+            GROUP BY fuel_type HAVING cnt >= 100 ORDER BY cnt DESC
         """)
         fuel_stats = cur.fetchall()
 
@@ -294,6 +294,29 @@ def analysis():
             GROUP BY label ORDER BY min_p
         """)
         price_dist = cur.fetchall()
+
+        # 주행거리 구간별 평균 시세
+        cur.execute("""
+            SELECT
+                CASE
+                    WHEN mileage < 10000  THEN '1만km 미만'
+                    WHEN mileage < 30000  THEN '1~3만km'
+                    WHEN mileage < 50000  THEN '3~5만km'
+                    WHEN mileage < 70000  THEN '5~7만km'
+                    WHEN mileage < 100000 THEN '7~10만km'
+                    WHEN mileage < 150000 THEN '10~15만km'
+                    WHEN mileage < 200000 THEN '15~20만km'
+                    ELSE '20만km 이상'
+                END as mileage_range,
+                ROUND(AVG(price)) as avg_price,
+                MIN(mileage) as sort_key
+            FROM cars
+            WHERE price > 50 AND price NOT IN (9990, 9999) AND price < 99000
+              AND mileage IS NOT NULL AND mileage >= 0
+            GROUP BY mileage_range
+            ORDER BY sort_key
+        """)
+        mileage_stats = cur.fetchall()
 
         # 국산 vs 수입 요약
         cur.execute("""
@@ -358,6 +381,7 @@ def analysis():
     return render_template('analysis.html',
                            brand_stats=brand_stats, year_stats=year_stats,
                            fuel_stats=fuel_stats, price_dist=price_dist,
+                           mileage_stats=mileage_stats,
                            type_stats=type_stats, summary=summary,
                            dep_brands=dep_brands,
                            corr_year=corr_year, corr_mileage=corr_mileage,

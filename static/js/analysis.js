@@ -202,11 +202,47 @@ function renderDepBtns() {
     });
 }
 
+/* ── 주행거리별 평균 시세 차트 ── */
+function buildMileageChart() {
+    new Chart(document.getElementById('mileageChart'), {
+        type: 'line',
+        data: {
+            labels: MILEAGE_LABELS,
+            datasets: [{
+                label: '평균 시세 (만원)',
+                data: MILEAGE_PRICES,
+                borderColor: '#7c3aed',
+                backgroundColor: 'rgba(124,58,237,0.08)',
+                pointBackgroundColor: '#7c3aed',
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2,
+                fill: true,
+                tension: 0.4,
+                pointRadius: 5,
+                pointHoverRadius: 7,
+                borderWidth: 2,
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: { callbacks: { label: ctx => ` ${ctx.parsed.y.toLocaleString()}만원` } }
+            },
+            scales: {
+                x: { grid: { display: false } },
+                y: { grid: { color: '#f3f4f6' }, ticks: { callback: v => v.toLocaleString() + '만' } }
+            }
+        }
+    });
+}
+
 /* ── 캐러셀 ── */
 const SLIDE_TITLES = [
     '🏆 브랜드별 평균 시세',
     '⛽ 연료 타입 분포',
     '📉 연식별 평균 시세',
+    '🚗 주행거리별 평균 시세',
     '💰 가격대별 매물 분포',
     '📉 브랜드별 연식 감가율',
 ];
@@ -215,13 +251,14 @@ const chartInitFns = [
     buildBrandChart,
     buildFuelChart,
     buildYearChart,
+    buildMileageChart,
     buildPriceDistChart,
     () => { renderDepBtns(); buildDepChart(); },
 ];
-const chartInited = [false, false, false, false, false];
+const chartInited = [false, false, false, false, false, false];
 
 let currentSlide = 0;
-const totalSlides = 5;
+const totalSlides = 6;
 let animating = false;
 
 function initDots() {

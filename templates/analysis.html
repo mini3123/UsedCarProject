@@ -101,10 +101,14 @@
                         <canvas id="yearChart" height="160"></canvas>
                     </div>
                     <div class="carousel-slide" id="slide-3">
+                        <div class="slide-sub">주행거리 구간별 평균 시세</div>
+                        <canvas id="mileageChart" height="160"></canvas>
+                    </div>
+                    <div class="carousel-slide" id="slide-4">
                         <div class="slide-sub">가격 구간별 매물 현황</div>
                         <canvas id="priceDistChart" height="160"></canvas>
                     </div>
-                    <div class="carousel-slide" id="slide-4">
+                    <div class="carousel-slide" id="slide-5">
                         <div class="slide-sub">매물 500건 이상 브랜드 · 2015년 이후</div>
                         <div id="depBrandBtns" style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:1rem;"></div>
                         <canvas id="depChart" height="160"></canvas>
@@ -197,6 +201,9 @@ const FUEL_COUNTS  = {{ fuel_stats  | map(attribute='cnt')          | list | toj
 
 const YEAR_LABELS  = {{ year_stats  | map(attribute='year')         | list | tojson }};
 const YEAR_PRICES  = {{ year_stats  | map(attribute='avg_price')    | list | tojson }};
+
+const MILEAGE_LABELS = {{ mileage_stats | map(attribute='mileage_range') | list | tojson }};
+const MILEAGE_PRICES = {{ mileage_stats | map(attribute='avg_price')     | list | tojson }};
 
 const PD_LABELS    = {{ price_dist  | map(attribute='label')        | list | tojson }};
 const PD_COUNTS    = {{ price_dist  | map(attribute='cnt')          | list | tojson }};
