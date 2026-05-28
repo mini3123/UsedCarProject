@@ -27,6 +27,24 @@
         <p class="predict-title">🤖 AI 시세 예측</p>
         <p class="predict-sub">차량 정보를 입력하면 AI가 적정 시세를 예측해드립니다.</p>
 
+        <!-- AI 시세 예측 안내 -->
+        <div class="ai-guide-box">
+            <p class="ai-guide-title">AI 예측 시세, 이렇게 활용하세요</p>
+            <p class="ai-guide-desc">
+                AI는 엔카에 등록된 <b>수만 건의 실제 매물 데이터</b>를 학습해 <b>브랜드·모델·트림·연료·연식·주행거리</b> 7가지 조건으로 시세를 산출합니다.
+            </p>
+            <p class="ai-guide-desc2">
+                쉽게 말해 <b>"이 조건의 차는 보통 이 가격에 올라온다"</b>는 기준값입니다.
+            </p>
+            <div class="ai-guide-list">
+                <span class="ai-guide-cheap">✔ 판매가 &lt; AI 예측가 → 시세보다 저렴한 매물, 좋은 거래일 가능성 높음</span>
+                <span class="ai-guide-expensive">✔ 판매가 &gt; AI 예측가 → 시세보다 비싼 매물, 신중한 검토 필요</span>
+            </div>
+            <p class="ai-guide-note">
+                <b>※ 사고 이력·옵션·차량 상태는 반영되지 않으므로 참고용으로만 활용하세요.</b>
+            </p>
+        </div>
+
         <form method="POST" action="/predict">
             <div class="mb-3">
                 <label class="form-label">브랜드</label>

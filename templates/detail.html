@@ -24,12 +24,10 @@
 <div class="page-wrap">
 
     <!-- ── 페이지 헤더 ── -->
-    <div style="display:flex; align-items:center; gap:10px; margin-bottom:.6rem; padding-bottom:.6rem; border-bottom:1px solid #e5e7eb;">
-        <a href="javascript:history.back()"
-           style="font-size:1.3rem; color:#9ca3af; text-decoration:none; line-height:1;
-                  background:none; border:none; padding:0; flex-shrink:0;">←</a>
-        <h1 class="page-title" style="margin:0;">{{ car.model }}</h1>
-        <p class="page-subtitle" style="margin:0;">{{ car.manufacturer }} · {{ car.year }}년 · {{ car.fuel_type }}</p>
+    <div class="page-header-row">
+        <a href="javascript:history.back()" class="back-btn">←</a>
+        <h1 class="page-title">{{ car.model }}</h1>
+        <p class="page-subtitle">{{ car.manufacturer }} · {{ car.year }}년 · {{ car.fuel_type }}</p>
     </div>
 
     <!-- ── 메인 2단 ── -->
@@ -51,7 +49,7 @@
             <div class="info-box">
                 <div class="car-mfr">{{ car.badge or car.manufacturer }}</div>
                 <div class="title-row">
-                    <h2 class="car-title" style="margin-bottom:0;">{{ car.model }}</h2>
+                    <h2 class="car-title">{{ car.model }}</h2>
                     <a href="https://fem.encar.com/cars/detail/{{ car.id }}"
                        target="_blank" class="btn-encar">엔카에서 원문 보기 →</a>
                 </div>
@@ -91,22 +89,25 @@
 
             <!-- 시세분석 -->
             <div>
-                <div class="sec-title">{{ car.model }} 연식별 평균 시세</div>
-                <div style="position:relative; height:300px;">
+                <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:.4rem;">
+                    <div class="sec-title" style="margin-bottom:0;">{{ car.model }} 연식별 평균 시세</div>
+                    <p class="chart-note">※ 현재 엔카 등록 매물의 평균 판매 희망가 기준</p>
+                </div>
+                <div class="chart-wrap">
                     <canvas id="priceChart"></canvas>
                 </div>
                 <div class="price-summary">
                     <div>
-                        <div class="ps-label" style="color:#2563eb;">최저가</div>
-                        <div class="ps-val" style="color:#2563eb;">{{ "{:,}".format(chart_data | map(attribute='avg_price') | min | int) }}만원</div>
+                        <div class="ps-label ps-label-min">최저가</div>
+                        <div class="ps-val ps-val-min">{{ "{:,}".format(chart_data | map(attribute='avg_price') | min | int) }}만원</div>
                     </div>
                     <div>
                         <div class="ps-label">이 차량</div>
-                        <div class="ps-val" style="color:#111827;">{{ "{:,}".format(car.price) }}만원</div>
+                        <div class="ps-val ps-val-cur">{{ "{:,}".format(car.price) }}만원</div>
                     </div>
                     <div>
-                        <div class="ps-label" style="color:#dc2626;">최고가</div>
-                        <div class="ps-val" style="color:#dc2626;">{{ "{:,}".format(chart_data | map(attribute='avg_price') | max | int) }}만원</div>
+                        <div class="ps-label ps-label-max">최고가</div>
+                        <div class="ps-val ps-val-max">{{ "{:,}".format(chart_data | map(attribute='avg_price') | max | int) }}만원</div>
                     </div>
                 </div>
             </div>
@@ -117,7 +118,7 @@
             {% set sc = '#16a34a' if score >= 75 else ('#2563eb' if score >= 55 else ('#d97706' if score >= 40 else '#dc2626')) %}
             <div>
                 <div class="ai-score-wrap">
-                    <div style="position:relative;width:90px;height:90px;flex-shrink:0;">
+                    <div class="score-svg-wrap">
                         <svg width="90" height="90" viewBox="0 0 80 80">
                             <circle cx="40" cy="40" r="34" fill="none" stroke="#f3f4f6" stroke-width="7"/>
                             <circle cx="40" cy="40" r="34" fill="none"
@@ -125,9 +126,9 @@
                                 stroke-dasharray="{{ (score / 100 * 213.6) | round(1) }} 213.6"
                                 transform="rotate(-90 40 40)"/>
                         </svg>
-                        <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
-                            <span style="font-size:1.5rem;font-weight:900;line-height:1;color:{{ sc }};">{{ score }}</span>
-                            <span style="font-size:.6rem;font-weight:700;color:#9ca3af;">/ 100</span>
+                        <div class="score-center">
+                            <span class="score-num" style="color:{{ sc }};">{{ score }}</span>
+                            <span class="score-denom">/ 100</span>
                         </div>
                     </div>
                     <div>

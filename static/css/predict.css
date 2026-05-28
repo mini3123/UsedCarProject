@@ -3,6 +3,50 @@
     margin: 3rem auto 5rem;
     padding: 0 1.25rem;
 }
+
+/* ── AI 안내 박스 ── */
+.ai-guide-box {
+    background: #f0f9ff;
+    border: 1px solid #bae6fd;
+    border-radius: 10px;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.8;
+}
+.ai-guide-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #0369a1;
+    margin: 0 0 .5rem;
+}
+.ai-guide-desc {
+    font-size: .85rem;
+    color: #374151;
+    margin: 0 0 .4rem;
+}
+.ai-guide-desc2 {
+    font-size: .85rem;
+    color: #374151;
+    margin: 0 0 .6rem;
+}
+.ai-guide-list {
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+}
+.ai-guide-cheap {
+    font-size: .92rem;
+    color: #16a34a;
+}
+.ai-guide-expensive {
+    font-size: .92rem;
+    color: #dc2626;
+}
+.ai-guide-note {
+    font-size: .82rem;
+    color: #9ca3af;
+    margin: .6rem 0 0;
+}
 .predict-card {
     background: #fff;
     border: 1.5px solid var(--gray-200);
